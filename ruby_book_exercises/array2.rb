@@ -1,7 +1,4 @@
-arr_one = [1, 2, 3, 4, 5]
+array1 = [1, 5, 9]
+array2 = [1, 9, 5]
 
-arr_one.each do |n|
-  n + 2
-end
-
-p arr_one
+p array1 == array2

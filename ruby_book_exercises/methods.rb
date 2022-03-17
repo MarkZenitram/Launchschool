@@ -1,6 +1,7 @@
-def scream(words)
-  words = words + "!!!!"
-  puts words
+def count_sheep
+  5.times do |sheep|
+    puts "sheep"
+  end
 end
 
-p scream("Yippeee")
+puts count_sheep

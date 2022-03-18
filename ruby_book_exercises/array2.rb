@@ -1,4 +1,15 @@
-array1 = [1, 5, 9]
-array2 = [1, 9, 5]
+def string_lengths(sentence)
+  words = sentence.split
+  word_lengths = []
+  counter = 0
 
-p array1 == array2
+  while counter < words.size do
+    word_lengths << words[counter].length
+    counter += 1
+  end
+
+  p words.size
+  p word_lengths
+end
+
+string_lengths("Hi you thee marks")

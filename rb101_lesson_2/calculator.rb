@@ -1,20 +1,12 @@
-=begin
-Create a calculator that: 
-1. Asks user for TWO numbers
-2. Asks for type of operation
-  1. add
-  2. substract
-  3. multiply
-  4. Divide
-3. Displays results
-=end
+require 'yaml'
+MESSAGES = YAML.load_file('calculator_messages.yml')
 
 def prompt(message)
   Kernel.puts("=> #{message}")
 end
 
 def valid_number?(num)
-  num.to_i() != 0
+  num.to_i.to_s != 0
 end
 
 def operation_to_message(op)
@@ -30,7 +22,7 @@ def operation_to_message(op)
   end
 end
 
-prompt("Welcome to calculator! Please enter your name:")
+prompt(MESSAGES['welcome'])
 
 name = ''
 loop do
@@ -76,7 +68,7 @@ loop do
     3) Multiply
     4) Divide
   MSG
-  
+
   prompt(operation_prompt)
 
   operation = ''
@@ -94,15 +86,15 @@ loop do
   prompt("#{operation_to_message(operation)} the two numbers...")
 
   result = case operation
-          when "1"
-            number_one.to_i + number_two.to_i
-          when "2"
-            number_one.to_i - number_two.to_i
-          when "3"
-            number_one.to_i * number_two.to_i 
-          when "4"
-            number_one.to_f / number_two.to_f
-          end
+           when "1"
+             number_one.to_i + number_two.to_i
+           when "2"
+             number_one.to_i - number_two.to_i
+           when "3"
+             number_one.to_i * number_two.to_i
+           when "4"
+             number_one.to_f / number_two.to_f
+           end
 
   prompt "The result is: #{result}"
 
@@ -111,5 +103,4 @@ loop do
   break unless answer.downcase().start_with?('y')
 end
 
-prompt ("Thank you for using this calcaulator!")
-
+prompt("Thank you for using this calcaulator!")

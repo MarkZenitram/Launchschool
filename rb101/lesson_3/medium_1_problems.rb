@@ -1,13 +1,17 @@
-output = "The Flintstones Rock!"
+my_string = "The Flintstones Rock!"
 counter = 0
+asci_string = " "
 
-puts output 
+
+puts my_string
 
 loop do
-  puts output.prepend(" ")
+  my_string = " " + my_string
+  puts my_string
   counter += 1
-  break if counter == 10
+  break if counter == 9
 end
 
-
 10.times { |number| puts (" " * number) + "The Flintstones Rock!" }
+
+10.times { |x| puts (" " * x) + "The Flintstones Rock!"}

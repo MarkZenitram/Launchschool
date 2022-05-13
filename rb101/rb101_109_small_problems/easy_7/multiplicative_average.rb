@@ -1,6 +1,9 @@
 def show_multiplicative_average(array_of_ints)
   total = array_of_ints.inject(:*).to_f
-  average = 
+  average = total / array_of_ints.size
+  puts "The result is " + format("%0.3f", average)
+end
+
 
 
 

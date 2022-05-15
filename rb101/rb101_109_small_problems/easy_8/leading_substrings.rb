@@ -14,4 +14,6 @@ end
 
 #leading_substrings('abc') == ['a', 'ab', 'abc']
 #leading_substrings('a') == ['a']
-p leading_substrings('xyzzy') == ['x', 'xy', 'xyz', 'xyzz', 'xyzzy']
+#p leading_substrings('xyzzy') == ['x', 'xy', 'xyz', 'xyzz', 'xyzzy']
+
+p leading_substrings('abc 123')

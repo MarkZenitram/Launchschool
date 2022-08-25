@@ -2,10 +2,11 @@ def decrease(counter)
   counter -= 1
 end
 
+counter = 10
+
 10.times do
-  counter = 10
   puts counter
-  decrease(counter)
+  counter = decrease(counter)
 end
 
 puts 'LAUNCH!'

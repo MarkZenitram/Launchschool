@@ -58,6 +58,7 @@ loop do
 
   prompt("Your monthly payment is $#{format('%.2f', payment)}")
   prompt("Would you like to try another calculation?")
+
   answer = gets.chomp
 
   break unless answer.downcase.start_with?('y')

@@ -17,3 +17,6 @@ integer = gets.chomp.to_i
 
 prompt("Enter 's' to compute the sum and 'p' for the product")
 action = gets.chomp
+
+
+test

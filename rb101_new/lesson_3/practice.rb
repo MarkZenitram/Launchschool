@@ -1,13 +1,19 @@
-puts "What is the bill?"
-bill = gets.chomp
+def prompt(string)
+  puts ">> #{string}"
+end
 
-puts "What is the tip percentage?"
-tip = gets.chomp
+def sum_of_ints(int)
+  (1..int).inject(:+)
+end
 
-tip_percent = tip.to_f/100
+def prod_of_ints(int)
+  (1..int).inject(:*)
+end
 
-tip_total = (bill.to_f * tip_percent).round(2)
-bill_total = tip_total + bill.to_f
+p prod_of_ints(3)
 
-puts "The tip is $#{format('%.2f',tip_total)}"
-puts "The total bill is $#{format('%.2f',bill_total)}"
+prompt('Please enter an interger greater than 0')
+integer = gets.chomp.to_i
+
+prompt("Enter 's' to compute the sum and 'p' for the product")
+action = gets.chomp

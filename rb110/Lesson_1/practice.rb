@@ -1,22 +1,17 @@
-#def multiply(numbers, multiplier)
-#  multiplied_numbers = numbers.map do |number|
-#    number * multiplier
-#  end
-#  multiplied_numbers
-#end
+#Each UUID consists of 32 hexadecimal characters, and is typically broken into 5 sections like this 8-4-4-4-12 and represented as a string.
+HEXADECIMAL_CHARS = ('a'..'f').to_a + ('1'..'9').to_a
 
-def multiply(numbers, multiplier)
-  multiplied_numbers = []
-  counter = 0
-  loop do
-    break if counter == numbers.size
-
-    multiplied_numbers << numbers[counter] * multiplier
-    counter += 1
-  end
-  multiplied_numbers
+def uuid_creator()
+  uuid = ''
+  32.times {|_| uuid << HEXADECIMAL_CHARS.sample}
+  uuid
 end
 
+def uuid_hypenator(id)
+  id.insert(8, '-')
+  id.insert(13, '-')
+  id.insert(18, '-')
+  id.insert(23, '-')
+end
 
-my_numbers = [1, 4, 3, 7, 2, 6]
-p multiply(my_numbers, 3) == [3,12, 9, 21, 6, 18]# => [3, 12, 9, 21, 6, 18]
+p uuid_hypenator(uuid_creator)

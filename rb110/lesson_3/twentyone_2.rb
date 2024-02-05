@@ -13,7 +13,7 @@ end
 
 def display_hands(player, dealer)
   prompt "Dealer currently has #{remove_suit(dealer).join(' and ')} for a total of #{total(dealer)}"
-  prompt "Player currently has #{remove_suit(player).join(' and ')} for a total of #{total(player)}"
+  prompt "Player currently has #{remove_suit(player).join(' and ')} for a total of #{total(player)}\n "
 end
 
 def deal_a_card(_)
@@ -38,8 +38,6 @@ end
 
 def total(current_hand)
   total = 0
-  total_with_low_a = 0
-  total_with_high_a = 0
   total_jqk = total_jqks_drawn(current_hand)
   total_a = total_as_drawn(current_hand) * 11
 
@@ -49,99 +47,99 @@ def total(current_hand)
   end
 
   total = (total_jqk * 10) + total + total_a
-  # total with as all being 1s
-  #total_with_low_a += total + total_a + (total_jqk * 10)
 
-  # total with as all being 11
-  #total_with_high_a += total + (total_a * 11) + (total_jqk * 10)
-
-  #if total_with_high_a <= 21 && total_with_high_a > total_with_low_a
-  #  total_with_high_a
-  #else
-  #  total_with_low_a
-  #end
   if total > 21 && total_as_drawn(current_hand) >= 1
-    total = total - (10 * total_as_drawn(current_hand))
+    total -= (10 * total_as_drawn(current_hand))
   else
     total
   end
 end
 
 def determine_winner(player, dealer)
-  if total(dealer) > 21 || (total(player) > total(dealer) && total(player) <= 21)
+  if dealer > 21 || (player > dealer && player <= 21)
     'Player'
-  elsif total(player) > 21 || (total(dealer) > total(player) && total(dealer) <= 21)
+  elsif player > 21 || (dealer > player && dealer <= 21)
     'Dealer'
   else
     'Tie'
   end
 end
 
-def busted?(hand)
-  total(hand) > 21
+def display_winner(winner)
+  case winner
+  when 'Player'
+    prompt 'You win!'
+  when 'Dealer'
+    prompt 'Dealer wins, better luck next time'
+  else
+    prompt 'Tie game!'
+  end
 end
 
-player_hand = []
-dealer_hand = []
+def busted?(hand)
+  hand > 21
+end
+
+def play_again?
+  puts "\n "
+  prompt 'Would you like to play again? (y or n)'
+  answer = gets.chomp
+  answer.downcase.start_with?('y')
+end
+
 
 prompt "Let's play Twenty-One"
 prompt 'Dealer deals each player cards'
 
-# Both players dealt 2 cards each
-2.times { |_| player_hand << deal_a_card(DECK) }
-2.times { |_| dealer_hand << deal_a_card(DECK) }
-prompt "Dealer currently has #{dealer_hand[0][0]} and unknown card"
-prompt "Player currently has #{remove_suit(player_hand).join(' and ')} for a total of #{total(player_hand)}"
-
 loop do
-  puts ''
-  answer = ''
-
+  player_hand = []
+  dealer_hand = []
+  2.times { |_| player_hand << deal_a_card(DECK) }
+  2.times { |_| dealer_hand << deal_a_card(DECK) }
+  player_total = total(player_hand)
+  dealer_total = total(dealer_hand)
+  prompt "Dealer currently has #{dealer_hand[0][0]} and unknown card"
+  prompt "Player currently has #{remove_suit(player_hand).join(' and ')} for a total of #{player_total}"
   loop do
-    break if total(player_hand) == 21
+    puts ''
+    answer = ''
 
-    prompt 'Hit or stay?'
-    answer = gets.chomp
-    if total(player_hand) == 21
-      break
-    elsif answer.downcase.start_with?('h')
-      prompt 'Dealer deals you one card'
-      player_hand << deal_a_card(DECK)
-      prompt "Dealer currently has #{dealer_hand[0][0]} and unknown card"
-      prompt "Player currently has #{remove_suit(player_hand).join(' and ')} for a total of #{total(player_hand)}"
-      break if total(player_hand) > 21 || busted?(player_hand)
-    elsif answer.downcase.start_with?('s')
-      break
-    else
-      prompt 'Invalid answer. Please select yes or no.'
+    loop do
+      break if player_total == 21
+
+      prompt 'Hit or stay?'
+      answer = gets.chomp
+      if answer.downcase.start_with?('h')
+        prompt 'Dealer deals you one card'
+        player_hand << deal_a_card(DECK)
+        player_total = total(player_hand)
+        prompt "Dealer currently has #{dealer_hand[0][0]} and unknown card"
+        prompt "Player currently has #{remove_suit(player_hand).join(' and ')} for a total of #{player_total}"
+        break if player_total > 21 || busted?(player_total)
+      elsif answer.downcase.start_with?('s')
+        break
+      else
+        prompt 'Invalid answer. Please select yes or no.'
+      end
     end
-  end
 
-  break if busted?(player_hand)
+    break if busted?(player_total)
 
-  loop do
-    break unless total(dealer_hand) < 17 && total(dealer_hand) < total(player_hand)
+    loop do
+      break unless dealer_total < 17 && dealer_total < player_total
+
       prompt 'Dealer draws a card'
       dealer_hand << deal_a_card(DECK)
+      dealer_total = total(dealer_hand)
       display_hands(player_hand, dealer_hand)
-      break if busted?(dealer_hand) || total(dealer_hand) > total(player_hand)
+      break if busted?(dealer_total) || dealer_total > player_total
+    end
+
+    break if player_total == 21 || busted?(player_total) || answer.downcase.start_with?('s')
   end
-  
-  break if total(player_hand) == 21 || busted?(player_hand) || answer.downcase.start_with?('s')
+  prompt "Finals Hands:"
+  display_hands(player_hand, dealer_hand)
+  display_winner(determine_winner(player_total, dealer_total))
+
+  break unless play_again?
 end
-
-prompt 'Finals Hands:'
-display_hands(player_hand, dealer_hand)
-
-case determine_winner(player_hand,dealer_hand)
-when 'Player'
-  prompt 'You win!'
-when 'Dealer'
-  prompt 'Dealer wins, better luck next time'
-else
-  prompt 'Tie game!'
-end
-
-
-
-

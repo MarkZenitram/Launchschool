@@ -1,6 +1,3 @@
-require 'pry'
-require 'pry-byebug'
-
 def find_at_risk_square(line, board)
   if board.values_at(*line).count('X') == 2
     board.select{|k,v| line.include?(k) && v == ' '}.keys.first
@@ -17,7 +14,6 @@ fake_board = {1 => 'X', 2 => 'X', 3 => ' ', 4 => ' ', 5 => ' ', 6 => ' ', 7 => '
 
 WINNING_LINES.each do |line|
   if fake_board.values_at(*line).count('X') == 2
-    binding.pry
     fake_board.select { |key, value| line.include?(key) && value == ' '}.keys.first
   else
     nil
